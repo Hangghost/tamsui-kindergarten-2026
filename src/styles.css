@@ -1,12 +1,7 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap");
+
 :root {
-  color: #3b352f;
-  background: #fffaf1;
-  font-family:
-    "Inter", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui,
-    sans-serif;
-  line-height: 1.5;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
+  /* color — preserved warm cream paper aesthetic */
   --cream: #fffaf1;
   --paper: #fffefa;
   --ink: #3b352f;
@@ -17,7 +12,85 @@
   --coral: #f18f79;
   --rose: #f6b8b8;
   --line: #eadfcf;
-  --shadow: 0 16px 38px rgba(98, 76, 44, 0.13);
+
+  /* semantic aliases */
+  --color-bg-base: var(--cream);
+  --color-surface: var(--paper);
+  --color-text: var(--ink);
+  --color-text-muted: var(--muted);
+  --color-success: var(--green);
+  --color-info: var(--blue);
+  --color-accent: var(--yellow);
+  --color-warning: var(--coral);
+  --color-error-soft: var(--rose);
+  --color-line: var(--line);
+  --color-focus: #d68a13;
+
+  /* spacing — 8px base */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* radius */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-full: 9999px;
+
+  /* shadow — warm brown tint, not pure black */
+  --shadow-sm: 0 1px 2px rgba(98, 76, 44, 0.06);
+  --shadow-md: 0 4px 12px rgba(98, 76, 44, 0.1);
+  --shadow-lg: 0 16px 38px rgba(98, 76, 44, 0.13);
+  --shadow-brutal: 5px 5px 0 var(--ink);
+  --shadow: var(--shadow-lg); /* legacy alias used in existing styles */
+
+  /* motion */
+  --ease-fast: 150ms ease;
+  --ease-base: 200ms ease;
+  --ease-slow: 300ms ease;
+  --ease-spring: 350ms cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* typography */
+  --font-sans: "Noto Sans TC", "Inter", "PingFang TC", "Microsoft JhengHei",
+    system-ui, sans-serif;
+  --font-size-base: 16px;
+  --line-height-body: 1.6;
+  --line-height-heading: 1.25;
+
+  color: var(--color-text);
+  background: var(--color-bg-base);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-body);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Accessibility: focus ring for keyboard nav (does not affect mouse users) */
+:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* Accessibility: respect user's motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 * {

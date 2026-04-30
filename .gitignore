@@ -5,3 +5,6 @@ dist/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# uipro CLI generates this — re-runnable via `npx uipro init --ai claude`
+.claude/skills/ui-ux-pro-max/
