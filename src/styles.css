@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,900&family=Noto+Sans+TC:wght@400;500;600;700;900&family=Noto+Serif+TC:wght@500;700;900&family=Inter:wght@400;500;600;700&display=swap");
 
 :root {
   /* color — preserved warm cream paper aesthetic */
@@ -59,9 +59,11 @@
   /* typography */
   --font-sans: "Noto Sans TC", "Inter", "PingFang TC", "Microsoft JhengHei",
     system-ui, sans-serif;
+  --font-display: "Fraunces", "Noto Serif TC", "PingFang TC",
+    "Hiragino Mincho ProN", "Songti TC", serif;
   --font-size-base: 16px;
   --line-height-body: 1.6;
-  --line-height-heading: 1.25;
+  --line-height-heading: 1.15;
 
   color: var(--color-text);
   background: var(--color-bg-base);
@@ -109,6 +111,24 @@ body {
     radial-gradient(circle at 8% 12%, rgba(255, 214, 107, 0.28), transparent 25%),
     radial-gradient(circle at 92% 2%, rgba(131, 184, 217, 0.24), transparent 27%),
     linear-gradient(180deg, #fffaf1 0%, #f8fbef 46%, #fffaf1 100%);
+  position: relative;
+}
+
+/* Subtle paper grain — feTurbulence noise overlay */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.39  0 0 0 0 0.30  0 0 0 0 0.17  0 0 0 0.5 0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.07'/></svg>");
+  mix-blend-mode: multiply;
+}
+
+main,
+.site-header {
+  position: relative;
+  z-index: 1;
 }
 
 a {
@@ -255,11 +275,19 @@ p {
   overflow-wrap: anywhere;
 }
 
+h1,
+h2,
+.detail-hero h1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: var(--line-height-heading);
+}
+
 h1 {
   margin: 0;
   font-size: clamp(38px, 6vw, 72px);
   line-height: 1.04;
-  letter-spacing: 0;
 }
 
 .hero-copy p:not(.eyebrow) {
@@ -696,6 +724,20 @@ h1 {
   min-height: 270px;
   flex-direction: column;
   padding: 18px;
+  transition: transform var(--ease-base), box-shadow var(--ease-base),
+    border-color var(--ease-base);
+  will-change: transform;
+}
+
+.school-card:not(.is-disabled):hover {
+  transform: translateY(-4px) rotate(-0.35deg);
+  box-shadow: 0 18px 40px rgba(98, 76, 44, 0.16),
+    0 4px 8px rgba(98, 76, 44, 0.06);
+  border-color: #d8c8a8;
+}
+
+.school-card:not(.is-disabled):active {
+  transform: translateY(-1px) rotate(-0.15deg);
 }
 
 .school-card.is-disabled {
