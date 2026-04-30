@@ -5,9 +5,9 @@
 export const homes = {
   homeA: {
     label: "淡水家",
-    address: "",
-    lat: null,
-    lng: null,
+    address: "新北市淡水區新市一路一段190號",
+    lat: 25.186152,
+    lng: 121.4327944,
   },
   homeB: {
     label: "備用地址",
