@@ -1,16 +1,513 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-Hant">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="整理新北市淡水區、石門區、三芝區（淡水分區）公立與非營利幼兒園缺額、距離、地圖與新手爸媽挑選指南。"
-    />
-    <title>淡水分區幼兒園抽籤小幫手</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>台玻玻纖布 — 獨家技術與產業定位研究</title>
+<style>
+  :root {
+    --bg: #fafaf9;
+    --fg: #1c1917;
+    --muted: #78716c;
+    --accent: #0e7490;
+    --accent-2: #b45309;
+    --accent-light: #cffafe;
+    --border: #e7e5e4;
+    --code-bg: #f5f5f4;
+    --card-bg: #ffffff;
+    --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    --radius: 8px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0c1416;
+      --fg: #fafaf9;
+      --muted: #a8a29e;
+      --accent: #22d3ee;
+      --accent-2: #f59e0b;
+      --accent-light: #164e63;
+      --border: #334155;
+      --code-bg: #1e293b;
+      --card-bg: #1e293b;
+    }
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--fg);
+    line-height: 1.75;
+    font-size: 16px;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+  }
+  /* Header */
+  header {
+    border-bottom: 2px solid var(--accent);
+    padding-bottom: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+  header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.4rem;
+  }
+  header .subtitle {
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+  header .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 0.85rem;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+  header .tag {
+    display: inline-block;
+    background: var(--accent-light);
+    color: var(--accent);
+    padding: 0.15em 0.6em;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 600;
+  }
+  /* TOC */
+  nav.toc {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 2.5rem;
+    box-shadow: var(--shadow);
+  }
+  nav.toc h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 0.75rem; border: 0; padding: 0; }
+  nav.toc ol { padding-left: 1.25rem; }
+  nav.toc li { margin-bottom: 0.35rem; }
+  nav.toc a { color: var(--accent); text-decoration: none; font-weight: 500; }
+  nav.toc a:hover { text-decoration: underline; }
+  /* Sections */
+  section { margin-bottom: 2.5rem; }
+  h2 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  h2 .num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    font-size: 0.8rem;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 1.5rem 0 0.5rem;
+    color: var(--accent-2);
+  }
+  p { margin-bottom: 0.85rem; }
+  ul, ol { margin-bottom: 0.85rem; padding-left: 1.5rem; }
+  li { margin-bottom: 0.4rem; }
+  strong { color: var(--accent); }
+  /* TL;DR card */
+  .tldr {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow);
+  }
+  .tldr h3 {
+    margin: 0 0 0.6rem 0;
+    color: var(--accent);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .tldr p:last-child { margin-bottom: 0; }
+  /* Highlight blocks */
+  .moat {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent-2);
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem;
+    margin: 1rem 0;
+    box-shadow: var(--shadow);
+  }
+  .moat .label {
+    display: inline-block;
+    background: var(--accent-2);
+    color: #fff;
+    padding: 0.1em 0.55em;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+  }
+  /* Tables */
+  .table-wrap { overflow-x: auto; margin-bottom: 1rem; border: 1px solid var(--border); border-radius: var(--radius); }
+  table { width: 100%; border-collapse: collapse; }
+  th, td { padding: 0.6rem 0.85rem; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; font-size: 0.92rem; }
+  th { font-weight: 600; color: var(--muted); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; background: var(--code-bg); }
+  tbody tr:last-child td { border-bottom: 0; }
+  tbody tr:hover { background: var(--code-bg); }
+  /* Flow diagram */
+  .flow {
+    background: var(--code-bg);
+    border: 1px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem;
+    margin: 1rem 0;
+    font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', Consolas, monospace;
+    font-size: 0.85rem;
+    color: var(--fg);
+    line-height: 1.8;
+    overflow-x: auto;
+  }
+  .flow .arrow { color: var(--accent); font-weight: 700; }
+  .flow .core { color: var(--accent-2); font-weight: 700; }
+  /* Risk list */
+  .risk {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-left: 4px solid #dc2626;
+    border-radius: var(--radius);
+    padding: 0.85rem 1.1rem;
+    margin-bottom: 0.6rem;
+    box-shadow: var(--shadow);
+  }
+  .risk strong { color: #dc2626; }
+  @media (prefers-color-scheme: dark) {
+    .risk { border-left-color: #f87171; }
+    .risk strong { color: #f87171; }
+  }
+  /* Code */
+  code {
+    font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', Consolas, monospace;
+    font-size: 0.9em;
+  }
+  p code, li code, td code {
+    background: var(--code-bg);
+    padding: 0.15em 0.4em;
+    border-radius: 4px;
+    font-size: 0.85em;
+  }
+  /* Quote */
+  blockquote {
+    border-left: 3px solid var(--accent);
+    padding: 0.6rem 1.1rem;
+    margin: 0.85rem 0;
+    background: var(--card-bg);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    color: var(--fg);
+    font-style: italic;
+  }
+  blockquote strong { font-style: normal; }
+  /* Sources */
+  .sources ol { padding-left: 1.5rem; }
+  .sources li { font-size: 0.92rem; margin-bottom: 0.45rem; word-break: break-word; }
+  .sources a { color: var(--accent); text-decoration: none; }
+  .sources a:hover { text-decoration: underline; }
+  /* Footer */
+  footer {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.8rem;
+    color: var(--muted);
+    text-align: center;
+  }
+  /* Number stat cards */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0.75rem;
+    margin: 1rem 0;
+  }
+  .stat {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 0.85rem 1rem;
+    box-shadow: var(--shadow);
+  }
+  .stat .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem; }
+  .stat .value { font-size: 1.1rem; font-weight: 700; color: var(--accent); }
+  /* Print */
+  @media print {
+    body { max-width: 100%; padding: 1rem; font-size: 11pt; }
+    .moat, .tldr, .risk, nav.toc, .stat { break-inside: avoid; }
+    header { break-after: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>台玻玻纖布獨家技術與產業定位</h1>
+  <div class="subtitle">Taiwan Glass (1802) — Fiberglass Cloth Technology &amp; Market Position Survey</div>
+  <div class="meta">
+    <span>2026-05-01</span>
+    <span class="tag">AI Server</span>
+    <span class="tag">PCB / CCL</span>
+    <span class="tag">Low-Dk</span>
+    <span class="tag">Low-CTE</span>
+    <span class="tag">NVIDIA Supply Chain</span>
+  </div>
+</header>
+
+<nav class="toc">
+  <h2>目錄</h2>
+  <ol>
+    <li><a href="#primer">玻纖布是什麼</a></li>
+    <li><a href="#tldr">TL;DR</a></li>
+    <li><a href="#position">玻纖布在 AI 供應鏈的位置</a></li>
+    <li><a href="#tech">台玻的獨家技術</a></li>
+    <li><a href="#landscape">產業定位：全球玩家結構</a></li>
+    <li><a href="#numbers">商業面數字快取</a></li>
+    <li><a href="#risks">風險與限制</a></li>
+    <li><a href="#system-view">系統觀：三個非顯而易見的觀察</a></li>
+    <li><a href="#sources">來源</a></li>
+  </ol>
+</nav>
+
+<section id="primer">
+  <h2><span class="num">0</span>玻纖布是什麼</h2>
+
+  <p><strong>真的是一塊布。</strong> 把玻璃拉成直徑 5-9 微米的長纖維（比頭髮細 10 倍），紡成紗，用真正的織布機織成經緯交錯的薄布，外觀半透明、白色泛銀光，厚度 0.03-0.1 mm。剝開一塊主機板的綠色油漆，看到的織紋就是玻纖布本人。</p>
+
+  <p><strong>它是 PCB 與 IC 載板的「夾心骨架」，不是貼在晶圓上的東西。</strong> 高階 AI 載板有 20-30 層，每一層都是「銅箔 + 環氧樹脂浸潤的玻纖布」三明治。玻纖布像鋼筋混凝土裡的鋼筋 — 看不見、拆不出、決定整塊板的尺寸穩定、機械強度與訊號損耗。</p>
+
+  <p><strong>它是結構件，不是耗材。</strong> 製程是「織布 → 浸樹脂半烘乾（prepreg）→ 多層疊壓硬化 → CCL → 製成 PCB」。熱壓那一步是單向化學反應，玻纖布永久封死在板裡，跟著伺服器一起進垃圾場。</p>
+
+  <div class="flow">
+玻纖紗 <span class="arrow">→</span> 織布 <span class="arrow">→</span> 浸樹脂半烘乾 (<span class="core">prepreg</span>) <span class="arrow">→</span> 多層疊壓 + 銅箔 <span class="arrow">→</span> <span class="core">CCL 銅箔基板</span> <span class="arrow">→</span> 蝕刻成電路 <span class="arrow">→</span> PCB / IC 載板 <span class="arrow">→</span> 焊上晶片 <span class="arrow">→</span> 隨產品報廢
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>維度</th><th>說明</th></tr></thead>
+      <tbody>
+        <tr><td><strong>物理形態</strong></td><td>真實的織布，厚度 30-100 微米</td></tr>
+        <tr><td><strong>原料</strong></td><td>拉絲玻璃（直徑 5-9 µm 玻纖紗）+ 環氧樹脂</td></tr>
+        <tr><td><strong>位置</strong></td><td>IC 載板核心層 + PCB 所有介電層（不貼晶圓）</td></tr>
+        <tr><td><strong>生命週期</strong></td><td>隨產品永久存在，不可拆、不可回收</td></tr>
+        <tr><td><strong>商業意義</strong></td><td>綁定 AI 伺服器出貨量，非重複購買的耗材</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <blockquote>這也是為什麼這次缺料會<strong>直接卡住 AI 伺服器出貨數量</strong> — 它不像光阻或 SSD 那種「使用中消耗」的東西，需求量等於「明年要出多少台 AI 伺服器 × 每台幾片載板 × 每片多少層 × 每層多少克玻纖布」。</blockquote>
+</section>
+
+<section id="tldr">
+  <div class="tldr">
+    <h3>核心結論</h3>
+    <p>
+      台玻在玻纖布的關鍵地位來自三件事：<strong>自研 TS-Glass 低膨脹配方繞過日東紡專利</strong>、<strong>Low-Dk 第二代電子級玻纖布從紗到布全垂直整合</strong>、以及在 NVIDIA / AMD 為首的 AI 供應鏈上是「日系以外唯一可規模化的 dual-source」。
+    </p>
+    <p>
+      它<strong>不是技術絕對領先者</strong>，而是世界第二、台廠唯一具備整套高階電子級玻纖布能力的玩家。傳產表皮，AI 上游材料的核心。
+    </p>
+  </div>
+</section>
+
+<section id="position">
+  <h2><span class="num">1</span>玻纖布在 AI 供應鏈的位置</h2>
+
+  <h3>1.1 物料路徑</h3>
+  <div class="flow">
+玻璃原料 <span class="arrow">→</span> <span class="core">玻纖紗 (yarn)</span> <span class="arrow">→</span> <span class="core">玻纖布 (cloth)</span> <span class="arrow">→</span> CCL 銅箔基板 <span class="arrow">→</span> PCB / IC 載板 <span class="arrow">→</span> 封裝 (CoWoS / CoWoP) <span class="arrow">→</span> AI 晶片模組 (GB200, MI300)
+  </div>
+  <p>玻纖布是 CCL 的骨架，CCL 又是高階 PCB 與 IC 載板的基底。<strong>沒有合規格的玻纖布，整條 AI server 板級供應鏈就斷在這一環。</strong></p>
+
+  <h3>1.2 三個關鍵物理參數</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>參數</th><th>名稱</th><th>為什麼重要</th><th>AI server 趨勢</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Dk</strong></td><td>介電常數</td><td>訊號傳輸速度，影響高頻損耗</td><td>越低越好，用於 PCB 訊號層</td></tr>
+        <tr><td><strong>Df</strong></td><td>介電損耗因子</td><td>訊號傳輸時的能量耗散</td><td>越低越好</td></tr>
+        <tr><td><strong>CTE</strong></td><td>熱膨脹係數</td><td>多層堆疊時的尺寸穩定性</td><td>越低越好，用於 IC 載板核心層</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>AI 加速卡功耗高、訊號頻率高、載板層數多 → 三項同時逼近物理極限，這就是「為什麼一張布難倒全球巨頭」的根本原因。</p>
+
+  <h3>1.3 GB200 之後的需求結構性放大</h3>
+  <p>
+    NVIDIA GB200 / GB300 的 OAM 與 UBB 板尺寸放大、層數加倍，<strong>T-Glass 用量等於原本的雙倍以上</strong>，疊加 800G / 1.6T 網通、CoWoP 封裝興起，把過去服務電子業利基市場的玻纖布變成了戰略物資。
+  </p>
+</section>
+
+<section id="tech">
+  <h2><span class="num">2</span>台玻的獨家技術</h2>
+
+  <div class="moat">
+    <span class="label">最關鍵護城河</span>
+    <h3 style="margin-top:0;color:var(--accent-2)">2.1 TS-Glass — 自研低 CTE 配方</h3>
+    <ul>
+      <li>對標日東紡的 <strong>T-Glass / NE-Glass</strong>（全球低 CTE 玻纖紗約 90% 由日東紡供應）。</li>
+      <li>台玻自行調整玻璃配方，<strong>繞過日東紡相關專利</strong>，命名為 <strong>TS-Glass</strong>。</li>
+      <li>已通過 NVIDIA 供應鏈三段認證（CCL → 載板廠 → 終端客戶），進入 GB200 量產供應。</li>
+      <li>商業意義：日東紡新產能要等到 <strong>2027 H2</strong> 才釋放，這段空窗期 TS-Glass 是市場上唯二可規模供應的低 CTE 替代來源。</li>
+    </ul>
+    <blockquote><strong>這一手是台玻整段故事的支點。</strong> 沒有 TS-Glass，台玻就只是「日系廠不夠賣時的次選」；有了 TS-Glass，它變成 NVIDIA 主動找的合作夥伴。</blockquote>
+  </div>
+
+  <h3>2.2 Low-Dk 第二代電子級玻纖布</h3>
+  <ul>
+    <li><strong>第一代</strong>：2018 年啟動研發，2020 年隨 5G 設備量產出貨。</li>
+    <li><strong>第二代</strong>：2023 年起針對 AI 應用開發，2025 年完成認證、Q3 進入量產放量。</li>
+    <li>全球只有 <strong>美系（Owens Corning 等）、日系（日東紡、AGC）、台玻</strong> 三組玩家掌握第二代規模量產能力。</li>
+    <li>客戶端：主流 CCL 廠（生益、台光電、聯茂等），終端打進 NVIDIA、AMD，蘋果、微軟亦在搶料名單上。</li>
+  </ul>
+
+  <h3>2.3 Owens Corning 技術授權底層</h3>
+  <p>台玻自 <strong>2018 年</strong>起與 <strong>Owens Corning</strong> 進行技術授權合作，引進玻纖漿料配方與製程指導。這層基礎讓台玻在「拉絲穩定性、玻纖紗均勻度、良率」三個工程瓶頸上具備已驗證的工業化能力，是 TS-Glass 與 Low-Dk 二代後續能落地的前提。</p>
+
+  <h3>2.4 玻纖紗 → 玻纖布的垂直整合</h3>
+  <ul>
+    <li>台廠多數玻纖布廠（富喬、建榮、宏和）需要外購紗或部分外購；<strong>台玻則是從池窯拉絲、紡紗、織布、後處理一條龍自產</strong>。</li>
+    <li>後段 Low-Dk / Low-CTE 等高階產品對紗的玻璃配方、拉絲條件、纖徑均一度極度敏感 → <strong>能否「自家紗 + 自家布」是良率與性能上限的決定因素</strong>。</li>
+    <li>台玻於台灣與成都皆有產能，<strong>建廠週期約 1.5 年</strong>，比歐日對手通常需要的 3 年時程快一倍，是這波缺貨循環中最重要的時間優勢。</li>
+  </ul>
+
+  <h3>2.5 產能擴張節奏</h3>
+  <div class="stats-grid">
+    <div class="stat"><div class="label">擴產資本支出</div><div class="value">22.5 億 NTD</div></div>
+    <div class="stat"><div class="label">高階產線</div><div class="value">4 → 12 條</div></div>
+    <div class="stat"><div class="label">2026 高階供貨成長</div><div class="value">+40~50%</div></div>
+    <div class="stat"><div class="label">高階產品營收占比目標</div><div class="value">20-25% → 40%</div></div>
+  </div>
+  <p>玻纖纖維事業營收占比已從 2024 年 23% 提升至 2025 前三季的 30%。</p>
+</section>
+
+<section id="landscape">
+  <h2><span class="num">3</span>產業定位：台玻在玻纖布全球分工中的位置</h2>
+
+  <h3>3.1 全球玩家結構</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>廠商</th><th>國別</th><th>強項</th><th>弱點</th></tr></thead>
+      <tbody>
+        <tr><td><strong>日東紡 Nittobo</strong></td><td>日本</td><td>T-glass 全球 90%；客戶廣度最深（NVIDIA、Microsoft、Google、AWS）</td><td>產能滿載，2027 H2 才能擴產</td></tr>
+        <tr><td><strong>AGC 旭硝子</strong></td><td>日本</td><td>高階配方 know-how 完整</td><td>規模較小，產線轉換慢</td></tr>
+        <tr><td><strong>Owens Corning</strong></td><td>美國</td><td>母配方源頭</td><td>不直接做高階電子級成品布</td></tr>
+        <tr><td><strong>台玻 1802</strong></td><td>台灣</td><td>唯一具 TS-Glass + Low-Dk 二代 + 垂直整合的台廠</td><td>浮法玻璃本業虧損拖累集團 EPS</td></tr>
+        <tr><td><strong>富喬 1815</strong></td><td>台灣</td><td>Low-Dk 一代成熟，二代研發中</td><td>需外購紗，高階規格認證落後台玻</td></tr>
+        <tr><td><strong>建榮 5340</strong></td><td>台灣</td><td>日東紡集團子公司，OEM 角色</td><td>自主技術有限，本質是日廠分工</td></tr>
+        <tr><td><strong>德宏 5475</strong></td><td>台灣</td><td>石英纖維紗布（Dk 比 Low-Dk 二代更低）</td><td>市場小，集中衛星與最尖端 HPC</td></tr>
+        <tr><td><strong>南亞 1303</strong></td><td>台灣</td><td>與日東紡合作生產</td><td>同為日系分工外延</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>3.2 台玻獨特定位（一句話）</h3>
+  <div class="moat">
+    <span class="label">Positioning</span>
+    <blockquote style="margin:0;font-size:1.05rem;">
+      <strong>「日系以外規模化的第二來源 + 台廠中唯一全棧（紗→布）+ 唯一通過 NVIDIA 三段認證者」</strong>
+    </blockquote>
+  </div>
+  <p>這個定位在當前缺料循環中價值極高：</p>
+  <ul>
+    <li><strong>客戶 dual-source 需求</strong>：國際大廠不會只押日廠，台玻是政策上必選的第二供應商。</li>
+    <li><strong>建廠速度 1.5 年 vs 對手 3 年</strong>：在 2025-2027 缺貨窗口內，台玻是<strong>唯一能擴產跟上需求</strong>的玩家。</li>
+    <li><strong>垂直整合</strong>：在 Low-Dk 二代 / TS-Glass 這種規格敏感產品上，自家紗讓良率有實質可量化的優勢。</li>
+  </ul>
+
+  <h3>3.3 真實的技術天梯</h3>
+  <p>不要被「台玻打贏日東紡」的標題誤導：</p>
+  <ul>
+    <li><strong>規格絕對前緣</strong>：德宏石英纖維紗布 &gt; 日東紡 NE-Glass &gt; 日東紡 T-Glass ≈ 台玻 TS-Glass ≈ Low-Dk 二代 &gt; Low-Dk 一代。</li>
+    <li><strong>規模 + 客戶廣度</strong>：日東紡 &gt;&gt; 台玻 &gt; AGC ≈ Owens Corning &gt; 富喬 &gt; 其他。</li>
+  </ul>
+  <p>台玻的勝利不是技術絕對領先，而是 <strong>「規格夠到 GB200 門檻」+「規模能擴」+「日系產能滿」</strong> 三件事的交集。</p>
+</section>
+
+<section id="numbers">
+  <h2><span class="num">4</span>商業面數字快取</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>項目</th><th>數值</th></tr></thead>
+      <tbody>
+        <tr><td>台灣玻纖布市佔率</td><td>約 35%</td></tr>
+        <tr><td>台灣玻纖紗市佔率</td><td>約 55%</td></tr>
+        <tr><td>玻纖事業營收占比（2025 前三季）</td><td>30%（前一年 23%）</td></tr>
+        <tr><td>高階產線擴產</td><td>4 → 12 條（2026 完成）</td></tr>
+        <tr><td>擴產資本支出</td><td>22.5 億元新台幣</td></tr>
+        <tr><td>2026 高階玻纖布供貨成長</td><td>年增 40-50%</td></tr>
+        <tr><td>訂單能見度</td><td>排至 2027 年</td></tr>
+        <tr><td>浮法玻璃本業</td><td>2025 累積營業虧損約 12 億元（中國地產拖累）</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="risks">
+  <h2><span class="num">5</span>風險與限制</h2>
+  <div class="risk"><strong>1. 集團 EPS 拖累</strong>：玻纖布雖賺錢，但浮法玻璃本業（中國地產循環）虧損抵銷，財務面表現不會像純玩家漂亮。</div>
+  <div class="risk"><strong>2. 石英纖維威脅</strong>：德宏的石英纖維紗布在 Dk 上贏 Low-Dk 二代，若高階 PCB 規格再升級，台玻需跟進石英路線。</div>
+  <div class="risk"><strong>3. 缺料窗口收斂</strong>：日東紡 2027 H2 擴產後，台玻 12 條產線開出時若全球供需反轉，有單一年度過剩風險。</div>
+  <div class="risk"><strong>4. 認證綁定客戶</strong>：CCL → 載板 → 終端三段認證流程長（約 1.5-2 年），是護城河也是被新對手反追的時間鎖。</div>
+  <div class="risk"><strong>5. TS-Glass 專利風險</strong>：「繞過日東紡專利」的法律穩固度仍是潛在議題，需追蹤是否有訴訟或交叉授權安排。</div>
+</section>
+
+<section id="system-view">
+  <h2><span class="num">6</span>系統觀：三個非顯而易見的觀察</h2>
+
+  <h3>6.1 垂直整合 = 樣本內最佳化</h3>
+  <p>當下游規格越極端（Low-Dk 二代 / TS-Glass），上下游耦合度就越強，垂直整合廠的良率上限自然優於外購紗的競爭者。<strong>這是物理層面的 inductive bias，不是組織管理優勢。</strong></p>
+
+  <h3>6.2 時間鎖即護城河</h3>
+  <p>CCL → 載板 → 終端三段認證是一個<strong>結構性慢變數</strong>。在 AI 半年一代的快變數市場中，凡是慢變數環節都會被定價成超額利潤，台玻吃的就是這個錯配。</p>
+
+  <h3>6.3「日系以外」這個位置是政治結構的產物</h3>
+  <p>客戶 dual-source 不是商業偏好而是地緣風險管理；換言之，<strong>只要中美與日台局勢持續，台玻的「次優替代」位置本身就有持續性 alpha</strong>，這比技術領先更穩。</p>
+</section>
+
+<section id="sources" class="sources">
+  <h2><span class="num">📎</span>來源</h2>
+  <ol>
+    <li><a href="https://www.cw.com.tw/article/5134402">獨家｜輝達主管狂拜託！台玻為何成為輝達 GB200 救星｜天下雜誌</a></li>
+    <li><a href="https://english.cw.com.tw/article/article.action?id=4000">Exclusive｜How Taiwan Glass Became Nvidia's Unlikely Savior for GB200｜CommonWealth</a></li>
+    <li><a href="https://technews.tw/2025/11/17/what-is-tglass-and-what-is-low-dk-low-cte/">一次搞懂「玻纖布」題材！為何 T-Glass 大缺貨、AI 伺服器升級全離不開它？｜TechNews</a></li>
+    <li><a href="https://blog.fugle.tw/post/earnings-call-1802-2025-11-20">台玻法說會重點內容備忘錄 2025/11/20｜富果直送</a></li>
+    <li><a href="https://money.udn.com/money/story/5612/9152772">台玻法說會：AI 帶動玻纖布需求吃緊，2026 新產能可增加五成供貨｜經濟日報</a></li>
+    <li><a href="https://www.moneydj.com/kmdj/news/newsviewer.aspx?a=fa5fd7f3-feeb-4f91-a85f-50be3c1c1b83">台玻擴大技術授權，三產品打入 NVIDIA 供應鏈｜MoneyDJ</a></li>
+    <li><a href="https://www.pocket.tw/school/report/perspective/6805/">玻纖布大廠日東紡 vs 台廠技術護城河對比｜口袋學堂</a></li>
+    <li><a href="https://www.sinotrade.com.tw/richclub/hotstock/%E7%A7%91%E6%8A%80%E5%B7%A8%E9%A0%AD%E6%8E%80%E7%8E%BB%E7%BA%96%E5%B8%83%E6%90%B6%E6%96%99%E6%88%B0-%E5%8F%B0%E5%BB%A0%E8%A8%82%E5%96%AE%E8%83%BD%E8%A6%8B%E5%BA%A6%E6%8E%92%E8%87%B32027%E5%B9%B4-%E8%82%A1%E5%B8%82%E8%A9%B1%E9%A1%8C-6968a76fd2222526495713cc">科技巨頭掀玻纖布搶料戰 台廠訂單能見度排至 2027 年｜豐雲學堂</a></li>
+    <li><a href="https://statementdog.com/news/15582">玻纖布缺口延燒至 2027 年｜財報狗</a></li>
+    <li><a href="https://www.trendforce.com/news/2025/11/24/news-what-is-glass-fiber-fabric-and-why-is-t-glass-critical-for-ai-servers-a-deep-dive/">TrendForce｜What Is Glass Fiber Fabric and Why Is T-Glass Critical for AI Servers?</a></li>
+    <li><a href="https://stock.ltn.com.tw/article/bf9xvhvtamzy">LTN 經濟通｜日商獨占 AI 高利潤市場 將被台玻打破？</a></li>
+    <li><a href="https://www.taiwanglass.com/">TAIWANGLASS 集團官方網站</a></li>
+  </ol>
+</section>
+
+<footer>
+  Taiwan Glass Fiberglass Cloth Insight · 2026-05-01 · 配套 markdown 版本：<code>2026-05-01_taiwan-glass-fiberglass-cloth-insight.md</code>
+</footer>
+
+</body>
 </html>
